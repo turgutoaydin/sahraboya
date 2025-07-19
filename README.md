@@ -57,13 +57,13 @@ Projenin ana dizin yapısı aşağıdaki gibidir:
 
 /├── assets/│   
             ├── css/│   │   
-              └── styles.css        # Ana stil dosyası│   
+                    └── styles.css        # Ana stil dosyası│   
             ├── js/│   │   
-              ├── main.js           # Tüm uygulama mantığı│   │   
-              ├── products.js       # Ürün veritabanı│   │
-              └── ralcolors-db.js   # RAL renkleri veritabanı│   
+                   ├── main.js           # Tüm uygulama mantığı│   │   
+                   ├── products.js       # Ürün veritabanı│   │
+                   └── ralcolors-db.js   # RAL renkleri veritabanı│   
            └── images/│       
-              └── logo.png          # Şirket logosu│
+                   └── logo.png          # Şirket logosu│
   └── index.html                # Ana HTML dosyası
 ---
 
