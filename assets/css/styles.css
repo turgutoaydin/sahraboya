@@ -1,0 +1,165 @@
+/*
+Project: Sahra Boya - Yenilikçi Katalog v6.0
+Author: turgutoaydin@gmail.com
+Description: Renkli kart kenarlıkları, estetik slider kontrolleri ve mobil optimizasyonlar.
+*/
+
+/* Google Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Tema Değişkenleri */
+:root {
+    --primary-color: #0052cc;
+    --primary-hover: #0041a3;
+    --secondary-color: #f8f9fa;
+    --background-gradient-end: #eef2f5;
+    --text-color: #212529;
+    --light-text-color: #6c757d;
+    --card-bg: #ffffff;
+    --border-color: #dee2e6;
+    --shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Genel Sayfa Stilleri */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* Navbar */
+.navbar-logo {
+    max-height: 40px;
+    transition: transform 0.3s ease;
+}
+.navbar-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Arama ve Filtreleme */
+.input-group .form-control, .dropdown-toggle {
+    font-size: 1rem;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+}
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 82, 204, 0.15);
+}
+.dropdown-menu {
+    box-shadow: var(--shadow-hover);
+    border-color: #ddd;
+}
+.dropdown-item.active, .dropdown-item:active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* --- YENİ: SLIDER GENEL STİLLERİ --- */
+.slick-list {
+    padding-top: 10px !important; /* Kartların gölgesi için boşluk */
+    padding-bottom: 10px !important;
+}
+.slick-slide {
+    padding: 0 12px; /* Slaytlar arası boşluk */
+}
+
+/* --- YENİ: ESTETİK SLIDER YÖN TUŞLARI --- */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.2s ease-in-out;
+}
+.slider-arrow:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+.slider-arrow.slick-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+.product-prev, .ral-prev { left: -25px; }
+.product-next, .ral-next { right: -25px; }
+
+
+/* --- YENİ: RENKLİ KENARLIKLI ÜRÜN KARTI --- */
+.product-card {
+    border: 4px solid transparent; /* JS ile renklendirilecek alan */
+    border-radius: 16px; /* Daha yuvarlak kenarlar */
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background-color: var(--card-bg);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+.product-card .card-body { padding: 1.25rem; flex-grow: 1; }
+.product-card .card-title { font-weight: 600; font-size: 1rem; min-height: 40px; }
+.product-card .card-footer { background: transparent; border-top: 1px solid #f0f0f0; padding: 0.75rem 1.25rem; }
+.product-price { font-size: 1.2rem; font-weight: 700; color: var(--primary-color); }
+
+/* RAL Renk Kataloğu Kartı */
+.ral-color-card {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.ral-color-card:hover { transform: translateY(-5px) scale(1.05); box-shadow: var(--shadow-hover); }
+.color-preview { width: 100%; height: 80px; border-bottom: 1px solid var(--border-color); }
+.color-info { padding: 0.75rem; text-align: center; }
+.color-info .ral-code { font-weight: 600; font-size: 0.9rem; color: var(--text-color); margin: 0; }
+.color-info .hex-code { font-size: 0.8rem; color: var(--light-text-color); margin: 0; font-family: monospace; }
+
+/* FAB & Modals */
+.fab-container { position: fixed; bottom: 30px; right: 30px; z-index: 1050; display: flex; flex-direction: column-reverse; align-items: center; }
+.fab { width: 56px; height: 56px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: all 0.3s ease; border: none; }
+.fab-main { font-size: 1.5rem; background-color: var(--primary-color); }
+.fab-main:hover { background-color: var(--primary-hover); transform: scale(1.1); }
+.fab-options { display: flex; flex-direction: column; align-items: center; margin-bottom: 15px; opacity: 0; pointer-events: none; transform: translateY(20px); transition: all 0.3s ease; }
+.fab-container.active .fab-options { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.fab-option { width: 48px; height: 48px; border-radius: 50%; background-color: white; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.3s ease; border: none; cursor: pointer; }
+.fab-option:hover { transform: scale(1.1); background-color: var(--secondary-color); }
+.fab-option i { font-size: 1.5rem; color: var(--text-color); }
+.fab-option .fa-whatsapp { color: #25d366; }
+.fab-option .fa-envelope { color: var(--primary-color); }
+.fab-option .fa-info-circle { color: var(--light-text-color); }
+
+.offcanvas-header, .modal-header { border-bottom: 1px solid var(--border-color); }
+.nav-tabs .nav-link i { color: var(--primary-color); opacity: 0.6; }
+.nav-tabs .nav-link.active i { opacity: 1; }
+
+/* --- MOBİL UYUMLULUK --- */
+@media (max-width: 767.98px) {
+    body { font-size: 14px; }
+    .input-group .form-control, .dropdown-toggle { font-size: 0.9rem; }
+    h2.h4 { font-size: 1.15rem; }
+    .product-card .card-title { font-size: 0.9rem; min-height: 38px; }
+    .product-price { font-size: 1rem; }
+    .fab-container { bottom: 20px; right: 20px; }
+    .slider-arrow { display: none !important; } /* Mobilde okları gizle */
+    .slick-slide { padding: 0 8px; }
+}

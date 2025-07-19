@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sahra Boya'nın yenilikçi ürün ve renk kataloğunu keşfedin.">
+    <title>Sahra Boya - Geri Dönüşümlü Sanayi Açık Kaynak Teknoloji</title>
+    
+    <!-- CSS Kütüphaneleri -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    
+    <!-- Özel Stil Dosyası -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-container">
+        <div class="fab fab-main" id="mainFab"><i class="fas fa-bars"></i></div>
+        <div class="fab-options">
+            <button class="fab-option" data-bs-toggle="modal" data-bs-target="#whatsappModal" title="WhatsApp"><i class="fab fa-whatsapp"></i></button>
+            <button class="fab-option" data-bs-toggle="modal" data-bs-target="#emailModal" title="E-posta"><i class="fas fa-envelope"></i></button>
+            <button class="fab-option" data-bs-toggle="modal" data-bs-target="#infoModal" title="Bilgi"><i class="fas fa-info-circle"></i></button>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="assets/images/logo.png" alt="Sahra Boya Logo" class="navbar-logo" onerror="this.onerror=null;this.src='https://placehold.co/200x40/0052cc/ffffff?text=Sahra+Boya';">
+            </a>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-secondary me-2 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileFilterOffcanvas" title="Filtrele">
+                    <i class="fas fa-filter"></i>
+                </button>
+                <button class="btn btn-primary position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#orderOffcanvas">
+                    <i class="fas fa-shopping-cart me-1"></i>
+                    <span class="d-none d-sm-inline">Siparişim</span>
+                    <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Ana İçerik -->
+    <main class="container my-5 flex-grow-1">
+        
+        <!-- Ürünler Bölümü -->
+        <section class="mb-5" aria-labelledby="products-heading">
+            <div class="row mb-3 align-items-center">
+                <div class="col-md-4">
+                    <h2 id="products-heading" class="h4 mb-0">Sahra Ürünleri</h2>
+                </div>
+                <div class="col-md-5">
+                     <div class="input-group">
+                        <input type="text" id="productSearch" class="form-control" placeholder="Ürün veya kategori ara...">
+                        <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileFilterOffcanvas"><i class="fas fa-filter"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-3 d-none d-lg-block">
+                    <div class="dropdown w-100">
+                        <button class="btn btn-light border dropdown-toggle w-100 text-start" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Tüm Kategoriler
+                        </button>
+                        <ul class="dropdown-menu w-100" aria-labelledby="categoryDropdown" id="categoryDropdownMenu">
+                            <!-- JS ile dolacak -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="position-relative">
+                <div class="product-slider" id="productSlider">
+                    <!-- Ürünler slider'ı JS ile yüklenecek -->
+                </div>
+                <button class="slider-arrow product-prev" aria-label="Önceki Ürünler"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-arrow product-next" aria-label="Sonraki Ürünler"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- RAL Renk Kataloğu Bölümü -->
+        <section class="mb-5" aria-labelledby="ral-colors-heading">
+            <div class="row mb-3 align-items-center">
+                <div class="col-md-4">
+                    <h2 id="ral-colors-heading" class="h4 mb-0">RAL Renk Kataloğu</h2>
+                </div>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" id="ralSearch" class="form-control" placeholder="RAL kodu veya hex renk kodu ara...">
+                    </div>
+                </div>
+            </div>
+            <div class="position-relative">
+                <div class="ral-color-slider">
+                    <!-- RAL renkleri JS ile buraya yüklenecek -->
+                </div>
+                <button class="slider-arrow ral-prev" aria-label="Önceki Renkler"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-arrow ral-next" aria-label="Sonraki Renkler"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white text-center text-muted py-3 border-top mt-auto">
+        <div class="container">
+            <p class="mb-0 small">&copy; 2025 Sahra Boya. Tüm Hakları Saklıdır. | Bu proje <a href="https://github.com/turgutoaydin" target="_blank" class="text-primary">turgutoaydin</a> tarafından geliştirilmiştir.</p>
+        </div>
+    </footer>
+
+    <!-- Offcanvas ve Modal Pencereleri (Tamamı) -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileFilterOffcanvas" aria-labelledby="mobileFilterOffcanvasLabel"><div class="offcanvas-header"><h5 class="offcanvas-title" id="mobileFilterOffcanvasLabel">Kategoriler</h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div><div class="offcanvas-body"><div id="mobileCategoryFilters" class="d-flex flex-column gap-2"></div></div></div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="productDetailOffcanvas" aria-labelledby="productDetailOffcanvasLabel"><div class="offcanvas-header"><h5 class="offcanvas-title" id="productDetailOffcanvasLabel">Ürün Detayları</h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div><div class="offcanvas-body" id="productDetailContent"></div></div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="orderOffcanvas" aria-labelledby="orderOffcanvasLabel"><div class="offcanvas-header"><h5 class="offcanvas-title" id="orderOffcanvasLabel">Sipariş Sepetim</h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button></div><div class="offcanvas-body d-flex flex-column"><div id="order-content-wrapper" class="flex-grow-1 d-flex flex-column"></div></div></div>
+    <div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="whatsappModalLabel">WhatsApp İletişim</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><div class="list-group"><a href="https://wa.me/905336124402" target="_blank" class="list-group-item list-group-item-action"><div class="d-flex align-items-center"><i class="fab fa-whatsapp fa-2x text-success me-3"></i><div><h6 class="mb-1">Turgut Özal Aydın</h6><small class="text-muted">+90 533 612 4402</small></div></div></a><a href="https://wa.me/905323158291" target="_blank" class="list-group-item list-group-item-action"><div class="d-flex align-items-center"><i class="fab fa-whatsapp fa-2x text-success me-3"></i><div><h6 class="mb-1">Mehmet Şen</h6><small class="text-muted">+90 532 315 8291</small></div></div></a><a href="https://wa.me/905325269191" target="_blank" class="list-group-item list-group-item-action"><div class="d-flex align-items-center"><i class="fab fa-whatsapp fa-2x text-success me-3"></i><div><h6 class="mb-1">Hatice Şen</h6><small class="text-muted">+90 532 526 9191</small></div></div></a></div></div></div></div></div>
+    <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="emailModalLabel">E-posta İletişim</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><div class="list-group"><a href="mailto:turgutoaydin@gmail.com" class="list-group-item list-group-item-action"><div class="d-flex align-items-center"><i class="fas fa-envelope fa-2x text-primary me-3"></i><div><h6 class="mb-1">Turgut Özal Aydın</h6><small class="text-muted">turgutoaydin@gmail.com</small></div></div></a><a href="mailto:sahraboyakimya@gmail.com" class="list-group-item list-group-item-action"><div class="d-flex align-items-center"><i class="fas fa-envelope fa-2x text-primary me-3"></i><div><h6 class="mb-1">Şirket E-posta</h6><small class="text-muted">sahraboyakimya@gmail.com</small></div></div></a><a href="mailto:mehmet@sahraboya.com" class="list-group-item list-group-item-action"><div class="d-flex align-items-center"><i class="fas fa-envelope fa-2x text-primary me-3"></i><div><h6 class="mb-1">Mehmet Şen</h6><small class="text-muted">mehmet@sahraboya.com</small></div></div></a></div></div></div></div></div>
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="infoModalLabel">Bilgi Merkezi</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><ul class="nav nav-tabs mb-4" id="infoTabs" role="tablist"><li class="nav-item" role="presentation"><button class="nav-link active" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab"><i class="fas fa-building me-2"></i>Hakkımızda</button></li><li class="nav-item" role="presentation"><button class="nav-link" id="faq-tab" data-bs-toggle="tab" data-bs-target="#faq" type="button" role="tab"><i class="fas fa-question-circle me-2"></i>SSS</button></li><li class="nav-item" role="presentation"><button class="nav-link" id="opensource-tab" data-bs-toggle="tab" data-bs-target="#opensource" type="button" role="tab"><i class="fab fa-github me-2"></i>Açık Kaynak</button></li></ul><div class="tab-content" id="infoTabsContent"><div class="tab-pane fade show active" id="about" role="tabpanel"><h4>Sahra Boya ve Kimya Sanayi</h4><p>Endüstriyel ve üretici siparişleri için ürün ve teknoloji formu ve SPA sunum alanı. Ürün veritabanı örneği ve sipariş işleme sistemi.</p><p>Yüksek kaliteli boya ve kimyasal ürünler üreten bir sanayi kuruluşuyuz. Müşteri memnuniyetini ön planda tutarak, kaliteli ve uygun fiyatlı ürünler sunmaktayız.</p></div><div class="tab-pane fade" id="faq" role="tabpanel"><div class="accordion" id="faqAccordion"><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne">Sipariş süreci nasıl işliyor?</button></h2><div id="faqOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion"><div class="accordion-body">Ürünleri sepete ekleyip sipariş formunu doldurduktan sonra, siparişiniz e-posta yoluyla bize iletilecektir. Sizinle en kısa sürede iletişime geçeceğiz.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo">Teslimat süresi ne kadar?</button></h2><div id="faqTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion"><div class="accordion-body">Teslimat süresi sipariş miktarına ve konumunuza göre değişiklik göstermektedir. Genellikle 1-3 iş günü içerisinde teslimat yapılmaktadır.</div></div></div></div></div><div class="tab-pane fade" id="opensource" role="tabpanel"><h4>Açık Kaynak Proje</h4><p>Bu proje açık kaynak olarak geliştirilmiştir. Katkıda bulunmak veya kendi projelerinizde kullanmak için GitHub deposunu ziyaret edebilirsiniz.</p><div class="d-flex align-items-center gap-3 mb-3"><i class="fab fa-github fa-2x"></i><a href="https://github.com/turgutoaydin/sahraboya" target="_blank" class="text-break">github.com/turgutoaydin/sahraboya</a></div><p>Proje geliştiricisi: <a href="mailto:turgutoaydin@gmail.com">turgutoaydin@gmail.com</a></p></div></div></div></div></div></div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3"><div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"><div class="toast-header text-white"><i id="toast-icon" class="fas fa-check-circle me-2"></i><strong class="me-auto" id="toast-title">Başarılı</strong><button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body" id="toast-body-content"></div></div></div>
+
+    <!-- Scriptler -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="assets/js/products.js"></script>
+    <script src="assets/js/ralcolors-db.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
