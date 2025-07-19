@@ -55,7 +55,16 @@ Bu projeyi yerel makinenizde çalıştırmak için herhangi bir derleme veya kur
 
 Projenin ana dizin yapısı aşağıdaki gibidir:
 
-/├── assets/│   ├── css/│   │   └── styles.css        # Ana stil dosyası│   ├── js/│   │   ├── main.js           # Tüm uygulama mantığı│   │   ├── products.js       # Ürün veritabanı│   │   └── ralcolors-db.js   # RAL renkleri veritabanı│   └── images/│       └── logo.png          # Şirket logosu│└── index.html                # Ana HTML dosyası
+/├── assets/│   
+            ├── css/│   │   
+              └── styles.css        # Ana stil dosyası│   
+            ├── js/│   │   
+              ├── main.js           # Tüm uygulama mantığı│   │   
+              ├── products.js       # Ürün veritabanı│   │
+              └── ralcolors-db.js   # RAL renkleri veritabanı│   
+           └── images/│       
+              └── logo.png          # Şirket logosu│
+  └── index.html                # Ana HTML dosyası
 ---
 
 ## 🤝 Katkıda Bulunma
