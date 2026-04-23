@@ -1,170 +1,569 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Akıllı Boya Renklendirici - 1 kg İçin Pigment Hesaplayıcı</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      padding: 20px;
-      max-width: 700px;
-      margin: auto;
-    }
-    h1 { text-align: center; color: #333; }
-    .container {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    label { display: block; margin: 15px 0 5px; font-weight: bold; }
-    input[type="color"] {
-      width: 80px;
-      height: 50px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    #hex { font-family: monospace; font-size: 1.3em; margin-left: 15px; }
-    #preview {
-      width: 180px;
-      height: 180px;
-      border: 2px solid #ddd;
-      border-radius: 12px;
-      margin: 20px auto;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #eee;
-    }
-    th { background: #f0f8ff; }
-    .pigment-sari   { background: #fffacd; }
-    .pigment-kirmizi{ background: #ffe4e1; }
-    .pigment-mavi   { background: #e6f0ff; }
-    .pigment-siyah  { background: #f0f0f0; }
-    .pigment-beyaz  { background: #ffffff; }
-    .total { font-weight: bold; font-size: 1.1em; background: #e8ffe8; }
-    .note {
-      margin-top: 25px;
-      padding: 15px;
-      background: #fff3cd;
-      border-radius: 8px;
-      font-size: 0.95em;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>eTourGood | Dijital Hisse</title>
+    <!-- Telegram WebApp Script -->
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: linear-gradient(145deg, #2c1a0c 0%, #1f1308 100%);
+            font-family: 'Segoe UI', system-ui, -apple-system, 'Inter', 'SF Pro Text', sans-serif;
+            padding: 20px 16px 40px;
+            min-height: 100vh;
+            color: #fff2e0;
+        }
+
+        /* Telegram mini app temasına saygı */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* turuncu vurgular */
+        .badge-orange {
+            background: rgba(255, 120, 0, 0.2);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 100, 0, 0.5);
+            border-radius: 60px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #ffbc7a;
+        }
+
+        .card {
+            background: rgba(30, 20, 12, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 20px 18px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 100, 30, 0.3);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffaa44, #ff6a00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .supply {
+            font-size: 14px;
+            background: #2a1e12;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-weight: 500;
+        }
+
+        .main-price {
+            margin: 15px 0 10px 0;
+        }
+
+        .price-label {
+            font-size: 14px;
+            opacity: 0.7;
+            letter-spacing: 0.5px;
+        }
+
+        .price-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffa559;
+            line-height: 1;
+        }
+
+        .price-value small {
+            font-size: 16px;
+            font-weight: 500;
+            color: #ffcd94;
+        }
+
+        .market-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 18px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .stat {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 24px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .stat-number {
+            font-weight: 700;
+            font-size: 18px;
+            margin-top: 4px;
+            color: #ffbc6e;
+        }
+
+        .distribution-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .holder-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .holder-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 2;
+            min-width: 130px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: #ff8c2e30;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 1px solid #ff8c2e;
+        }
+
+        .holder-name {
+            font-weight: 500;
+        }
+
+        .holder-percent {
+            font-weight: 700;
+            font-size: 17px;
+            color: #ffb158;
+            min-width: 55px;
+            text-align: right;
+        }
+
+        .holder-amount {
+            font-size: 13px;
+            background: #322418;
+            padding: 4px 10px;
+            border-radius: 40px;
+            font-family: monospace;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar {
+            background: #2f241b;
+            border-radius: 20px;
+            height: 8px;
+            width: 100%;
+            margin: 12px 0 8px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ff8c2e, #ffb347);
+            width: 0%;
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .tg-btn {
+            background: #ff7a2f;
+            border: none;
+            padding: 14px 0;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 16px;
+            color: #1f140a;
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .tg-btn-outline {
+            background: transparent;
+            border: 1.5px solid #ff7a2f;
+            color: #ffa559;
+        }
+
+        .tg-btn:active {
+            transform: scale(0.97);
+            background: #e06620;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 11px;
+            opacity: 0.5;
+            margin-top: 32px;
+        }
+
+        /* tokenomics etiketi */
+        .chip {
+            display: inline-block;
+            background: #00000040;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+
+        hr {
+            border-color: #ff883330;
+            margin: 14px 0;
+        }
+
+        @media (max-width: 460px) {
+            body {
+                padding: 16px 12px 32px;
+            }
+            .holder-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .holder-percent {
+                text-align: left;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-
 <div class="container">
-  <h1>1 kg Boya Akıllı Renklendirici</h1>
-  
-  <label>Hedef Renk Seç:</label>
-  <input type="color" id="colorPicker" value="#a020f0" />
-  <span id="hex">#a020f0</span>
+    <!-- Ana Kart: Hisse Senedi / Token Bilgisi -->
+    <div class="card">
+        <div class="header-logo">
+            <div class="logo">🏝️ eTourGood</div>
+            <div class="supply">🔹 Dijital Hisse Senedi</div>
+        </div>
+        <div class="main-price">
+            <div class="price-label">Güncel Borsa Fiyatı (Dijital)</div>
+            <div class="price-value">₺0.042 <small>TRY</small> <span style="font-size:14px;">≈ $0.0012</span></div>
+        </div>
+        <div class="market-stats">
+            <div class="stat">
+                <div class="stat-label">Piyasa Değeri</div>
+                <div class="stat-number">₺210.000</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Toplam Arz</div>
+                <div class="stat-number">5.000.000 <span style="font-size:12px;">ETG</span></div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Dolaşımdaki</div>
+                <div class="stat-number">%90</div>
+            </div>
+        </div>
+        <div class="progress-bar" style="margin-top: 18px;">
+            <div class="progress-fill" style="width: 72%;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 4px;">
+            <span>🔸 Likidite havuzu</span>
+            <span>🔸 Hazine & Ekosistem</span>
+        </div>
+    </div>
 
-  <div id="preview"></div>
+    <!-- Hisse Dağılımı [Dijital Resmi Hisse Dağılımı ] -->
+    <div class="card">
+        <div class="distribution-title">
+            📊 Dijital Resmi Hisse Dağılımı
+            <div class="badge-orange">Tokenomics</div>
+        </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Pigment</th>
-        <th>Miktar (ml / 1 kg boya)</th>
-        <th>Yaklaşık Oran (%)</th>
-      </tr>
-    </thead>
-    <tbody id="resultTable">
-      <!-- JS buraya dolduracak -->
-    </tbody>
-  </table>
+        <!-- %20 Yazılım (Teknoloji Geliştirme) -->
+        <div class="holder-item">
+            <div class="holder-info">
+                <div class="avatar">💻</div>
+                <div class="holder-name">Yazılım & Teknoloji</div>
+            </div>
+            <div class="holder-percent">%20</div>
+            <div class="holder-amount">1.000.000 ETG</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width: 20%; background:#ff914d;"></div></div>
 
-  <div class="note">
-    <strong>Not:</strong> Bu hesaplama <strong>basitleştirilmiş</strong> bir yaklaşımdır. Gerçek hayatta her pigmentin boyama gücü (tinting strength), yoğunluğu ve markaya göre farklılık gösterir. Genelde 1 kg iç cephe boyaya toplam 5–40 ml arası pigment karışımı eklenir. Çok koyu renklerde 60–100 ml'ye çıkabilir. Deneme yapmadan büyük miktarda kullanma, önce küçük test yap.
-  </div>
+        <!-- %20 Likitasyon (Likidite & Piyasa Yapıcı) -->
+        <div class="holder-item" style="margin-top: 10px;">
+            <div class="holder-info">
+                <div class="avatar">💧</div>
+                <div class="holder-name">Likitasyon (Dijital Borsa)</div>
+            </div>
+            <div class="holder-percent">%20</div>
+            <div class="holder-amount">1.000.000 ETG</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width: 20%; background:#ffb347;"></div></div>
+
+        <!-- %50 Kurucu Cüzdan (şimdilik benim cüzdanım) -->
+        <div class="holder-item" style="margin-top: 10px;">
+            <div class="holder-info">
+                <div class="avatar">👑</div>
+                <div class="holder-name">Kurucu Cüzdan (Stratejik)</div>
+            </div>
+            <div class="holder-percent">%50</div>
+            <div class="holder-amount">2.500.000 ETG</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width: 50%; background:#ff7a2f;"></div></div>
+
+        <!-- %10 Hazine & Ekosistem -->
+        <div class="holder-item" style="margin-top: 10px;">
+            <div class="holder-info">
+                <div class="avatar">🏦</div>
+                <div class="holder-name">Hazine & Ekosistem</div>
+            </div>
+            <div class="holder-percent">%10</div>
+            <div class="holder-amount">500.000 ETG</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width: 10%; background:#ffaa55;"></div></div>
+
+        <hr>
+        <div style="font-size:13px; display: flex; justify-content: space-between; margin-top: 6px;">
+            <span>✅ Toplam Arz doğrulandı</span>
+            <strong>5.000.000 ETG</strong>
+        </div>
+        <div style="background:#1f150e; border-radius: 20px; padding: 12px; margin-top: 14px; font-size: 13px;">
+            🔍 <strong>Dijital borsa mantığı</strong> · eTourGood hisseleri tokenleştirilmiş olup Telegram üzerinden işlem görür. Dağılım tablosu resmi token kontratında sabitlenmiştir.
+        </div>
+    </div>
+
+    <!-- Telegram Mini App İşlem Butonları (Gerçek borsa simülasyonu) -->
+    <div class="card">
+        <div class="distribution-title">
+            🧾 Dijital Borsa İşlemleri
+            <span class="chip">Beta</span>
+        </div>
+        <div class="button-group">
+            <div class="tg-btn" id="buyBtn">📈 AL (Demo)</div>
+            <div class="tg-btn tg-btn-outline" id="sellBtn">📉 SAT (Demo)</div>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; background:#00000030; border-radius: 28px; padding: 12px;">
+            <div style="display:flex; justify-content: space-between;">
+                <span>🔹 Cüzdan Bakiyeniz (Demo)</span>
+                <strong id="userBalance">12.450 ETG</strong>
+            </div>
+            <div style="display:flex; justify-content: space-between; margin-top: 5px;">
+                <span>🔸 TRY bakiye</span>
+                <strong id="tryBalance">₺1.250,00</strong>
+            </div>
+            <div class="progress-bar" style="margin-top: 12px;"><div class="progress-fill" style="width: 32%; background:#ff9966;"></div></div>
+            <div class="footer-note" style="margin-top: 8px;">💡 Telegram Mini App entegrasyonu - Gerçek borsa mantığı hisse fiyatı arz talep ile belirlenir.</div>
+        </div>
+    </div>
+
+    <!-- Token / Telegram bilgi footer -->
+    <div class="footer-note">
+        🧡 eTourGood ® Dijital Hisse Senedi | tokenomics turuncu tonda | Arz 5.000.000 | Resmi Dağılım %50 Kurucu · %20 Yazılım · %20 Likitasyon · %10 Hazine
+    </div>
 </div>
 
 <script>
-// RGB → CMYK yaklaşık dönüşüm (0-100 arası)
-function rgbToCmyk(r, g, b) {
-  r /= 255; g /= 255; b /= 255;
-  let k = Math.min(1 - r, 1 - g, 1 - b);
-  if (k === 1) return {c:0, m:0, y:0, k:100};
-  
-  let c = (1 - r - k) / (1 - k);
-  let m = (1 - g - k) / (1 - k);
-  let y = (1 - b - k) / (1 - k);
-  
-  return {
-    c: Math.round(c * 100),
-    m: Math.round(m * 100),
-    y: Math.round(y * 100),
-    k: Math.round(k * 100)
-  };
-}
+    // Telegram WebApp entegrasyonu - kullanıcı bilgisi varsa göster, yoksa demo devam
+    let tg = window.Telegram?.WebApp;
+    if (tg) {
+        tg.expand();   // mini app'i tam ekran yap
+        tg.enableClosingConfirmation();
+        tg.setHeaderColor('#1f1308');
+        tg.setBackgroundColor('#1f1308');
+    }
 
-function updateColor() {
-  const picker = document.getElementById('colorPicker');
-  const hexEl = document.getElementById('hex');
-  const preview = document.getElementById('preview');
-  const table = document.getElementById('resultTable');
+    // --- DAĞILIM SİMÜLASYONU (HİSSE MANTIĞI) ---
+    // Toplam arz: 5.000.000 token
+    // Fiyat: 0.042 TRY (başlangıç)
+    let currentPrice = 0.042;   // TRY cinsinden
+    let userTokenBalance = 12450;   // Demo kullanıcıya ait token
+    let userTryBalance = 1250.00;   // TRY cinsinden
 
-  const hex = picker.value;
-  hexEl.textContent = hex.toUpperCase();
-  preview.style.backgroundColor = hex;
+    // DOM elementleri
+    const buyBtn = document.getElementById('buyBtn');
+    const sellBtn = document.getElementById('sellBtn');
+    const balanceSpan = document.getElementById('userBalance');
+    const tryBalanceSpan = document.getElementById('tryBalance');
+    const priceDisplayElement = document.querySelector('.price-value');
+    
+    function updateUI() {
+        balanceSpan.innerText = userTokenBalance.toLocaleString(undefined, {maximumFractionDigits: 2}) + ' ETG';
+        tryBalanceSpan.innerText = '₺' + userTryBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        // güncel fiyatı göster
+        if(priceDisplayElement) {
+            priceDisplayElement.innerHTML = `₺${currentPrice.toFixed(3)} <small>TRY</small> <span style="font-size:14px;">≈ $${(currentPrice/35).toFixed(4)}</span>`;
+        }
+        // piyasa değerini de güncelle (toplam dolaşımdaki 4.5M varsayalım, ama arz 5M)
+        const marketCap = (currentPrice * 4500000).toFixed(0);
+        const marketCapElement = document.querySelector('.market-stats .stat:first-child .stat-number');
+        if(marketCapElement) marketCapElement.innerHTML = `₺${parseInt(marketCap).toLocaleString()}`;
+    }
 
-  // RGB al
-  let r = parseInt(hex.substr(1,2),16);
-  let g = parseInt(hex.substr(3,2),16);
-  let b = parseInt(hex.substr(5,2),16);
+    // AL işlemi (hisse senedi alımı) - fiyat üzerinden
+    function buyTokens(amountTRY) {
+        if(amountTRY <= 0) return false;
+        if(userTryBalance < amountTRY) {
+            if(tg) tg.showAlert('Yetersiz TRY bakiyesi!');
+            else alert('Yetersiz TRY bakiyesi!');
+            return false;
+        }
+        let tokensBought = amountTRY / currentPrice;
+        if(tokensBought <= 0) return false;
+        userTryBalance -= amountTRY;
+        userTokenBalance += tokensBought;
+        // Fiyatı artır (basit talep etkisi: her alım %0.25 artış)
+        currentPrice = currentPrice * (1 + (amountTRY / 10000));
+        currentPrice = parseFloat(currentPrice.toFixed(5));
+        updateUI();
+        if(tg) tg.showAlert(`✅ ${tokensBought.toFixed(2)} ETG hissesi aldınız! Yeni fiyat: ₺${currentPrice.toFixed(4)}`);
+        else alert(`✅ ${tokensBought.toFixed(2)} ETG alındı. Yeni fiyat: ₺${currentPrice.toFixed(4)}`);
+        return true;
+    }
 
-  const cmyk = rgbToCmyk(r, g, b);
+    // SAT işlemi
+    function sellTokens(amountETG) {
+        if(amountETG <= 0) return false;
+        if(userTokenBalance < amountETG) {
+            if(tg) tg.showAlert('Yetersiz ETG bakiyeniz!');
+            else alert('Yetersiz ETG token bakiyeniz');
+            return false;
+        }
+        let tryReceived = amountETG * currentPrice;
+        userTokenBalance -= amountETG;
+        userTryBalance += tryReceived;
+        // satış fiyatı %0.2 düşüş (piyasa etkisi)
+        currentPrice = currentPrice * (1 - (amountETG / 50000));
+        currentPrice = Math.max(0.0001, parseFloat(currentPrice.toFixed(5)));
+        updateUI();
+        if(tg) tg.showAlert(`📉 ${amountETG.toFixed(2)} ETG satıldı, ₺${tryReceived.toFixed(2)} kazanıldı. Yeni fiyat: ₺${currentPrice.toFixed(4)}`);
+        else alert(`📉 ${amountETG.toFixed(2)} ETG satıldı. Fiyat: ₺${currentPrice.toFixed(4)}`);
+        return true;
+    }
 
-  // Basit pigment ml hesaplama (ortalama katsayı: 0.4 ml / %)
-  // Gerçekte bu değer pigment markasına göre 0.2 - 0.8 ml arasında değişir
-  const factor = 0.45; // deneysel ortalama
+    // Buton aksiyonları - mini app prompt
+    buyBtn.addEventListener('click', () => {
+        let amountTRY = 250;  // varsayılan 250 TL
+        if(tg) {
+            tg.showPopup({
+                title: 'ETG Hisse Alımı',
+                message: `Güncel fiyat: ₺${currentPrice.toFixed(4)} / ETG\nKaç TL değerinde almak istersiniz?`,
+                buttons: [
+                    {id: '50', text: '₺50', type: 'default'},
+                    {id: '100', text: '₺100', type: 'default'},
+                    {id: '250', text: '₺250', type: 'default'},
+                    {id: 'custom', text: '✏️ Özel', type: 'default'},
+                    {id: 'cancel', text: 'İptal', type: 'cancel'}
+                ]
+            }, (btnId) => {
+                if(btnId === 'cancel') return;
+                let val = 0;
+                if(btnId === '50') val = 50;
+                else if(btnId === '100') val = 100;
+                else if(btnId === '250') val = 250;
+                else if(btnId === 'custom') {
+                    tg.showPrompt({
+                        title: 'Özel Miktar',
+                        message: 'TL cinsinden miktar girin (min 10)',
+                        placeholder: 'Örn: 300'
+                    }, (input) => {
+                        if(input && !isNaN(parseFloat(input)) && parseFloat(input) > 0) {
+                            buyTokens(parseFloat(input));
+                        } else if(input) tg.showAlert('Geçersiz sayı');
+                    });
+                    return;
+                }
+                if(val > 0) buyTokens(val);
+            });
+        } else {
+            let inputTry = prompt('Kaç TL değerinde ETG almak istersiniz? (min 20 TL)', '100');
+            if(inputTry && !isNaN(parseFloat(inputTry)) && parseFloat(inputTry) > 0) {
+                buyTokens(parseFloat(inputTry));
+            } else alert('Geçersiz miktar');
+        }
+    });
 
-  let mlC = Math.round(cmyk.c * factor);
-  let mlM = Math.round(cmyk.m * factor);
-  let mlY = Math.round(cmyk.y * factor);
-  let mlK = Math.round(cmyk.k * factor * 1.3); // siyah daha güçlü, biraz fazla katsayı
+    sellBtn.addEventListener('click', () => {
+        if(tg) {
+            tg.showPopup({
+                title: 'ETG Hisse Satışı',
+                message: `Bakiyeniz: ${userTokenBalance.toFixed(2)} ETG\nFiyat: ₺${currentPrice.toFixed(4)} / ETG\nKaç adet satmak istersiniz?`,
+                buttons: [
+                    {id: '500', text: '500 ETG', type: 'default'},
+                    {id: '1000', text: '1000 ETG', type: 'default'},
+                    {id: 'half', text: 'Yarısı', type: 'default'},
+                    {id: 'custom', text: 'Özel', type: 'default'},
+                    {id: 'cancel', text: 'İptal', type: 'cancel'}
+                ]
+            }, (btnId) => {
+                if(btnId === 'cancel') return;
+                let amount = 0;
+                if(btnId === '500') amount = 500;
+                else if(btnId === '1000') amount = 1000;
+                else if(btnId === 'half') amount = userTokenBalance / 2;
+                else if(btnId === 'custom') {
+                    tg.showPrompt({
+                        title: 'Özel Satış',
+                        message: `Kaç ETG satmak istersiniz? (Maks: ${userTokenBalance.toFixed(2)})`,
+                        placeholder: 'Örn: 750'
+                    }, (val) => {
+                        if(val && !isNaN(parseFloat(val)) && parseFloat(val) > 0 && parseFloat(val) <= userTokenBalance) {
+                            sellTokens(parseFloat(val));
+                        } else if(val) tg.showAlert('Geçersiz veya yetersiz bakiye');
+                    });
+                    return;
+                }
+                if(amount > 0 && amount <= userTokenBalance) sellTokens(amount);
+                else if(amount > userTokenBalance) tg.showAlert('Yetersiz bakiye!');
+            });
+        } else {
+            let amountSell = prompt(`Mevcut ETG: ${userTokenBalance.toFixed(2)}\nKaç ETG satmak istersiniz?`, '250');
+            if(amountSell && !isNaN(parseFloat(amountSell)) && parseFloat(amountSell) > 0 && parseFloat(amountSell) <= userTokenBalance) {
+                sellTokens(parseFloat(amountSell));
+            } else alert('Geçersiz miktar veya yetersiz bakiye.');
+        }
+    });
 
-  // Toplam pigmenti sınırlayalım (mantıklı sınır)
-  let totalPigment = mlC + mlM + mlY + mlK;
-  if (totalPigment > 80) {
-    const scale = 80 / totalPigment;
-    mlC = Math.round(mlC * scale);
-    mlM = Math.round(mlM * scale);
-    mlY = Math.round(mlY * scale);
-    mlK = Math.round(mlK * scale);
-  }
+    // İlk UI güncellemesi ve Telegram teması senkronu
+    updateUI();
 
-  // Beyaz: kalanını beyaz baz olarak düşün (ekstra beyaz eklemek nadiren gerekir)
-  let mlW = 0;
-  if (totalPigment < 10) mlW = Math.round(15 - totalPigment); // çok açık renkse biraz beyaz ek
-
-  // Tabloyu doldur
-  table.innerHTML = `
-    <tr class="pigment-sari"><td>Sarı pigment</td><td>${mlY} ml</td><td>${cmyk.y}%</td></tr>
-    <tr class="pigment-kirmizi"><td>Kırmızı / Magenta pigment</td><td>${mlM} ml</td><td>${cmyk.m}%</td></tr>
-    <tr class="pigment-mavi"><td>Mavi pigment</td><td>${mlC} ml</td><td>${cmyk.c}%</td></tr>
-    <tr class="pigment-siyah"><td>Siyah pigment</td><td>${mlK} ml</td><td>${cmyk.k}%</td></tr>
-    ${mlW > 0 ? `<tr class="pigment-beyaz"><td>Ekstra Beyaz pigment</td><td>${mlW} ml</td><td>—</td></tr>` : ''}
-    <tr class="total"><td>Toplam pigment (yaklaşık)</td><td>${mlC + mlM + mlY + mlK + mlW} ml</td><td>—</td></tr>
-  `;
-}
-
-// Başlangıçta çalıştır + her değişiklikte güncelle
-document.getElementById('colorPicker').addEventListener('input', updateColor);
-updateColor(); // ilk yüklemede mor örneği göstersin
-
+    // token dağılımı represantasyonu için konsola bilgi verme (opsiyonel)
+    console.log('eTourGood Dijital Hisse Senedi | Toplam Arz: 5.000.000 | Dağılım %50 Kurucu, %20 Yazılım, %20 Likitasyon, %10 Hazine');
 </script>
 </body>
 </html>
