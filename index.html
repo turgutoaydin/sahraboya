@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>etourgood POS</title>
+<title>etourgood Wallet</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -12,112 +12,110 @@
   --primary: #ff7a00;
   --bg: #f6f7f9;
   --card: #ffffff;
-  --text: #1f1f1f;
-  --sub: #777;
-  --border: #e5e5e5;
+  --text: #1f2937;
+  --gray: #6b7280;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, sans-serif;
   background: var(--bg);
-  color: var(--text);
 }
 
 .container {
   padding: 16px;
+  max-width: 420px;
+  margin: auto;
 }
 
 /* HEADER /
 .header {
-  text-align: center;
-  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .logo {
   font-weight: bold;
-  font-size: 20px;
   color: var(--primary);
+  font-size: 20px;
 }
 
-/ CARD /
+/ BALANCE /
+.balance-card {
+  background: linear-gradient(135deg, #ff7a00, #ff9a3c);
+  color: white;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+}
+
+.balance-title {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.balance-amount {
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/ ACTIONS /
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.action-btn {
+  flex: 1;
+  background: rgba(255,255,255,0.2);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/ ASSETS /
 .card {
   background: var(--card);
-  border-radius: 16px;
-  padding: 18px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-  margin-bottom: 14px;
+  padding: 15px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
 }
 
-/ TRANSACTION /
-.row {
+.asset {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
 }
 
-.label {
-  font-size: 13px;
-  color: var(--sub);
-}
-
-.value {
+.asset-name {
   font-weight: 500;
 }
 
-/ AMOUNT /
-.amount {
-  font-size: 28px;
-  font-weight: bold;
-  text-align: center;
-  margin: 10px 0;
+.asset-balance {
+  font-size: 14px;
 }
 
-/ PAYMENT METHODS /
-.method {
-  border: 1px solid var(--border);
-  padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 8px;
-  cursor: pointer;
-}
-
-.method.active {
-  border: 2px solid var(--primary);
-}
-
-/ BUTTON /
+/ BUTTON */
 .btn {
   width: 100%;
-  padding: 16px;
-  border-radius: 14px;
-  border: none;
+  padding: 14px;
   background: var(--primary);
   color: white;
+  border: none;
+  border-radius: 14px;
   font-size: 16px;
   font-weight: bold;
+  margin-top: 10px;
   cursor: pointer;
 }
 
-/ STATUS /
-.status {
-  text-align: center;
-  margin-top: 15px;
-  font-weight: bold;
-}
-
-.pending { color: orange; }
-.success { color: green; }
-
-/ QR /
-.qr {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.qr img {
-  width: 180px;
-}
 </style>
 </head>
 
@@ -125,57 +123,47 @@ body {
 
 <div class="container">
 
+  <!-- HEADER -->
   <div class="header">
-    <div class="logo">etourgood POS</div>
+    <div class="logo">etourgood</div>
+    <div>Wallet</div>
   </div>
 
-  <!-- TRANSACTION INFO -->
+  <!-- BALANCE -->
+  <div class="balance-card">
+    <div class="balance-title">Total Balance</div>
+    <div class="balance-amount">$2,450.00</div>
+
+    <div class="actions">
+      <div class="action-btn" onclick="deposit()">Deposit</div>
+      <div class="action-btn" onclick="send()">Send</div>
+      <div class="action-btn" onclick="openPOS()">Pay</div>
+    </div>
+  </div>
+
+  <!-- ASSETS -->
   <div class="card">
-    <div class="row">
-      <div class="label">Transaction</div>
-      <div class="value" id="txId">#ETG-982134</div>
-    </div>
-
-    <div class="row">
-      <div class="label">Type</div>
-      <div class="value" id="txType">Tour Purchase</div>
-    </div>
-
-    <div class="amount" id="amount">250 USDT</div>
-
-    <div class="row">
-      <div class="label">Status</div>
-      <div class="value pending" id="statusText">Awaiting Payment</div>
+    <div class="asset">
+      <div>
+        <div class="asset-name">USDT</div>
+        <div class="asset-balance">1,200.00</div>
+      </div>
+      <div>$1,200</div>
     </div>
   </div>
 
-  <!-- PAYMENT METHODS -->
   <div class="card">
-    <div class="label">Select Payment Method</div>
-
-    <div class="method active" onclick="selectMethod(this, 'usdt')">
-      💰 Pay with USDT
-    </div>
-
-    <div class="method" onclick="selectMethod(this, 'card')">
-      💳 Credit Card (Soon)
-    </div>
-
-    <div class="method" onclick="selectMethod(this, 'transfer')">
-      🏦 Bank Transfer (Soon)
+    <div class="asset">
+      <div>
+        <div class="asset-name">TON</div>
+        <div class="asset-balance">320.50</div>
+      </div>
+      <div>$850</div>
     </div>
   </div>
 
-  <!-- ACTION -->
-  <div class="card">
-    <button class="btn" onclick="pay()">Confirm & Pay</button>
-
-    <div class="qr" id="qrBox" style="display:none;">
-      <img id="qrImage" src="">
-    </div>
-
-    <div class="status pending" id="paymentStatus"></div>
-  </div>
+  <!-- BUTTON -->
+  <button class="btn" onclick="openPOS()">Pay with Wallet</button>
 
 </div>
 
@@ -184,55 +172,19 @@ body {
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-let selectedMethod = "usdt";
-let txUID = "ETG-982134"; // backend'den gelecek
-
-function selectMethod(el, method) {
-  document.querySelectorAll('.method').forEach(m => m.classList.remove('active'));
-  el.classList.add('active');
-  selectedMethod = method;
+function deposit() {
+  alert("Deposit flow (QR / address gelecek)");
 }
 
-function pay() {
-
-  if (selectedMethod === "usdt") {
-
-    fetch(https://yourdomain.com/api/pay/${txUID}/, {
-      method: "POST"
-    })
-    .then(res => res.json())
-    .then(data => {
-
-      document.getElementById("qrBox").style.display = "block";
-      document.getElementById("qrImage").src = data.qr;
-
-      document.getElementById("paymentStatus").innerText = "Waiting for blockchain confirmation...";
-    });
-
-  } else {
-    alert("This payment method is not active yet.");
-  }
-
+function send() {
+  alert("Send flow (address + amount)");
 }
 
-/ PAYMENT CHECK LOOP */
-setInterval(() => {
-
-  fetch(https://yourdomain.com/api/status/${txUID}/)
-  .then(res => res.json())
-  .then(data => {
-
-    if (data.status === "paid") {
-      document.getElementById("statusText").innerText = "Paid";
-      document.getElementById("statusText").className = "value success";
-
-      document.getElementById("paymentStatus").innerText = "Payment Confirmed ✅";
-      document.getElementById("paymentStatus").className = "status success";
-    }
-
-  });
-
-}, 5000);
+function openPOS() {
+  // POS ekranına yönlendirme
+  window.location.href = "pos.html"; 
+  // veya Telegram bot deep link
+}
 
 </script>
 
