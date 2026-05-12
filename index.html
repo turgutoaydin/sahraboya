@@ -1,116 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>etourgood POS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>etourgood Payment</title>
 
-  <!-- Telegram WebApp -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <style>
-    :root {
-      --primary: #ff7a00;
-      --light: #ffffff;
-      --gray: #f4f4f4;
-      --dark-gray: #777;
-      --text: #222;
-    }
+<style>
+:root {
+  --primary: #ff7a00;
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #1f2937;
+  --gray: #6b7280;
+  --border: #e5e7eb;
+}
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--gray);
-      color: var(--text);
-    }
+body {
+  margin: 0;
+  font-family: -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
-    .container {
-      padding: 20px;
-    }
+.container {
+  padding: 18px;
+  max-width: 420px;
+  margin: auto;
+}
 
-    .header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+.header {
+  text-align: center;
+  margin-bottom: 15px;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: var(--primary);
-    }
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--primary);
+}
 
-    .card {
-      background: var(--light);
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      margin-bottom: 15px;
-    }
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  margin-bottom: 15px;
+}
 
-    .label {
-      font-size: 13px;
-      color: var(--dark-gray);
-      margin-bottom: 5px;
-    }
+.amount {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
 
-    input, select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
+.currency {
+  text-align: center;
+  color: var(--gray);
+  margin-bottom: 15px;
+}
 
-    .btn {
-      width: 100%;
-      padding: 14px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
 
-    .btn.secondary {
-      background: #eee;
-      color: #333;
-    }
+.row span:last-child {
+  font-weight: 500;
+}
 
-    .qr {
-      text-align: center;
-      margin-top: 15px;
-    }
+.badge {
+  background: #fff3e6;
+  color: var(--primary);
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+}
 
-    .qr img {
-      width: 180px;
-      height: 180px;
-    }
+.btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .status {
-      text-align: center;
-      margin-top: 10px;
-      font-weight: bold;
-    }
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
 
-    .status.pending {
-      color: orange;
-    }
+.btn-secondary {
+  background: #eee;
+  margin-top: 10px;
+}
 
-    .status.success {
-      color: green;
-    }
+.status {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+}
 
-    .wallet {
-      font-size: 12px;
-      word-break: break-all;
-      background: #fafafa;
-      padding: 8px;
-      border-radius: 8px;
-    }
-  </style>
+.success {
+  color: green;
+}
+
+.loader {
+  display: none;
+  text-align: center;
+  margin-top: 10px;
+}
+
+</style>
 </head>
 
 <body>
@@ -118,80 +125,92 @@
 <div class="container">
 
   <div class="header">
-    <div class="logo">etourgood POS</div>
+    <div class="logo">etourgood</div>
   </div>
 
+  <!-- PAYMENT CARD -->
   <div class="card">
-    <div class="label">Amount</div>
-    <input type="number" id="amount" placeholder="Enter amount">
 
-    <div class="label">Currency</div>
-    <select id="currency">
-      <option value="USDT">USDT</option>
-      <option value="TON">TON</option>
-    </select>
+    <div class="amount" id="amount">1250.00</div>
+    <div class="currency">USDT</div>
 
-    <button class="btn" onclick="createInvoice()">Create Payment</button>
-  </div>
-
-  <div class="card" id="invoiceBox" style="display:none;">
-    <div class="label">Wallet Address</div>
-    <div class="wallet" id="walletAddress"></div>
-
-    <div class="qr">
-      <img id="qrImage" src="">
+    <div class="row">
+      <span>Transaction</span>
+      <span>#TX983742</span>
     </div>
 
-    <div class="status pending" id="status">Waiting for payment...</div>
+    <div class="row">
+      <span>Type</span>
+      <span class="badge">Tour Booking</span>
+    </div>
 
-    <button class="btn secondary" onclick="checkPayment()">Check Status</button>
+    <div class="row">
+      <span>Network</span>
+      <span>TRC20</span>
+    </div>
+
+    <div class="row">
+      <span>Merchant</span>
+      <span>etourgood</span>
+    </div>
+
+  </div>
+
+  <!-- ACTION -->
+  <div class="card">
+
+    <button class="btn btn-primary" onclick="pay()">Pay with Wallet</button>
+
+    <button class="btn btn-secondary">Change Method</button>
+
+    <div class="loader" id="loader">Processing...</div>
+
+    <div class="status" id="status"></div>
+
   </div>
 
 </div>
 
 <script>
 
-  const tg = window.Telegram.WebApp;
-  tg.expand();
+const tg = window.Telegram.WebApp;
+tg.expand();
 
-  let currentInvoiceId = null;
+// DYNAMIC DATA (backend'den gelecek)
+const transaction = {
+  id: "TX983742",
+  amount: 1250,
+  currency: "USDT",
+  type: "Tour Booking"
+};
 
-  function createInvoice() {
-    const amount = document.getElementById("amount").value;
-    const currency = document.getElementById("currency").value;
+function pay() {
 
-    fetch("https://yourdomain.com/api/create-invoice/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ amount, currency })
+  document.getElementById("loader").style.display = "block";
+  document.getElementById("status").innerText = "";
+
+  fetch("https://yourdomain.com/api/pay/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      transaction_id: transaction.id
     })
-    .then(res => res.json())
-    .then(data => {
+  })
+  .then(res => res.json())
+  .then(data => {
 
-      currentInvoiceId = data.invoice_id;
+    if (data.status === "pending") {
+      document.getElementById("status").innerText = "Waiting for blockchain confirmation...";
+    }
 
-      document.getElementById("invoiceBox").style.display = "block";
-      document.getElementById("walletAddress").innerText = data.address;
-      document.getElementById("qrImage").src = data.qr;
+    if (data.status === "success") {
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("status").innerText = "Payment Successful ✅";
+      document.getElementById("status").className = "status success";
+    }
 
-    });
-  }
-
-  function checkPayment() {
-
-    fetch(https://yourdomain.com/api/check-invoice/${currentInvoiceId}/)
-    .then(res => res.json())
-    .then(data => {
-
-      if (data.status === "paid") {
-        document.getElementById("status").innerText = "Payment Received ✅";
-        document.getElementById("status").className = "status success";
-      }
-
-    });
-  }
+  });
+}
 
 </script>
 
