@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>etourgood Payment</title>
+<title>etourgood POS</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -12,111 +12,112 @@
   --primary: #ff7a00;
   --bg: #f6f7f9;
   --card: #ffffff;
-  --text: #1f2937;
-  --gray: #6b7280;
-  --border: #e5e7eb;
+  --text: #1f1f1f;
+  --sub: #777;
+  --border: #e5e5e5;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
 
 .container {
-  padding: 18px;
-  max-width: 420px;
-  margin: auto;
+  padding: 16px;
 }
 
+/* HEADER /
 .header {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
 .logo {
-  font-size: 20px;
   font-weight: bold;
+  font-size: 20px;
   color: var(--primary);
 }
 
+/ CARD /
 .card {
   background: var(--card);
   border-radius: 16px;
   padding: 18px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-  margin-bottom: 15px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+  margin-bottom: 14px;
 }
 
-.amount {
-  font-size: 28px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 5px;
-}
-
-.currency {
-  text-align: center;
-  color: var(--gray);
-  margin-bottom: 15px;
-}
-
+/ TRANSACTION /
 .row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-  font-size: 14px;
 }
 
-.row span:last-child {
+.label {
+  font-size: 13px;
+  color: var(--sub);
+}
+
+.value {
   font-weight: 500;
 }
 
-.badge {
-  background: #fff3e6;
-  color: var(--primary);
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 12px;
+/ AMOUNT /
+.amount {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
 }
 
+/ PAYMENT METHODS /
+.method {
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.method.active {
+  border: 2px solid var(--primary);
+}
+
+/ BUTTON /
 .btn {
   width: 100%;
-  padding: 15px;
+  padding: 16px;
   border-radius: 14px;
   border: none;
+  background: var(--primary);
+  color: white;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
 }
 
-.btn-primary {
-  background: var(--primary);
-  color: white;
-}
-
-.btn-secondary {
-  background: #eee;
-  margin-top: 10px;
-}
-
+/ STATUS /
 .status {
   text-align: center;
   margin-top: 15px;
   font-weight: bold;
 }
 
-.success {
-  color: green;
-}
+.pending { color: orange; }
+.success { color: green; }
 
-.loader {
-  display: none;
+/ QR /
+.qr {
   text-align: center;
   margin-top: 10px;
 }
 
+.qr img {
+  width: 180px;
+}
 </style>
 </head>
 
@@ -125,48 +126,55 @@ body {
 <div class="container">
 
   <div class="header">
-    <div class="logo">etourgood</div>
+    <div class="logo">etourgood POS</div>
   </div>
 
-  <!-- PAYMENT CARD -->
+  <!-- TRANSACTION INFO -->
   <div class="card">
-
-    <div class="amount" id="amount">1250.00</div>
-    <div class="currency">USDT</div>
-
     <div class="row">
-      <span>Transaction</span>
-      <span>#TX983742</span>
+      <div class="label">Transaction</div>
+      <div class="value" id="txId">#ETG-982134</div>
     </div>
 
     <div class="row">
-      <span>Type</span>
-      <span class="badge">Tour Booking</span>
+      <div class="label">Type</div>
+      <div class="value" id="txType">Tour Purchase</div>
     </div>
+
+    <div class="amount" id="amount">250 USDT</div>
 
     <div class="row">
-      <span>Network</span>
-      <span>TRC20</span>
+      <div class="label">Status</div>
+      <div class="value pending" id="statusText">Awaiting Payment</div>
+    </div>
+  </div>
+
+  <!-- PAYMENT METHODS -->
+  <div class="card">
+    <div class="label">Select Payment Method</div>
+
+    <div class="method active" onclick="selectMethod(this, 'usdt')">
+      💰 Pay with USDT
     </div>
 
-    <div class="row">
-      <span>Merchant</span>
-      <span>etourgood</span>
+    <div class="method" onclick="selectMethod(this, 'card')">
+      💳 Credit Card (Soon)
     </div>
 
+    <div class="method" onclick="selectMethod(this, 'transfer')">
+      🏦 Bank Transfer (Soon)
+    </div>
   </div>
 
   <!-- ACTION -->
   <div class="card">
+    <button class="btn" onclick="pay()">Confirm & Pay</button>
 
-    <button class="btn btn-primary" onclick="pay()">Pay with Wallet</button>
+    <div class="qr" id="qrBox" style="display:none;">
+      <img id="qrImage" src="">
+    </div>
 
-    <button class="btn btn-secondary">Change Method</button>
-
-    <div class="loader" id="loader">Processing...</div>
-
-    <div class="status" id="status"></div>
-
+    <div class="status pending" id="paymentStatus"></div>
   </div>
 
 </div>
@@ -176,41 +184,55 @@ body {
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-// DYNAMIC DATA (backend'den gelecek)
-const transaction = {
-  id: "TX983742",
-  amount: 1250,
-  currency: "USDT",
-  type: "Tour Booking"
-};
+let selectedMethod = "usdt";
+let txUID = "ETG-982134"; // backend'den gelecek
+
+function selectMethod(el, method) {
+  document.querySelectorAll('.method').forEach(m => m.classList.remove('active'));
+  el.classList.add('active');
+  selectedMethod = method;
+}
 
 function pay() {
 
-  document.getElementById("loader").style.display = "block";
-  document.getElementById("status").innerText = "";
+  if (selectedMethod === "usdt") {
 
-  fetch("https://yourdomain.com/api/pay/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      transaction_id: transaction.id
+    fetch(https://yourdomain.com/api/pay/${txUID}/, {
+      method: "POST"
     })
-  })
+    .then(res => res.json())
+    .then(data => {
+
+      document.getElementById("qrBox").style.display = "block";
+      document.getElementById("qrImage").src = data.qr;
+
+      document.getElementById("paymentStatus").innerText = "Waiting for blockchain confirmation...";
+    });
+
+  } else {
+    alert("This payment method is not active yet.");
+  }
+
+}
+
+/ PAYMENT CHECK LOOP */
+setInterval(() => {
+
+  fetch(https://yourdomain.com/api/status/${txUID}/)
   .then(res => res.json())
   .then(data => {
 
-    if (data.status === "pending") {
-      document.getElementById("status").innerText = "Waiting for blockchain confirmation...";
-    }
+    if (data.status === "paid") {
+      document.getElementById("statusText").innerText = "Paid";
+      document.getElementById("statusText").className = "value success";
 
-    if (data.status === "success") {
-      document.getElementById("loader").style.display = "none";
-      document.getElementById("status").innerText = "Payment Successful ✅";
-      document.getElementById("status").className = "status success";
+      document.getElementById("paymentStatus").innerText = "Payment Confirmed ✅";
+      document.getElementById("paymentStatus").className = "status success";
     }
 
   });
-}
+
+}, 5000);
 
 </script>
 
