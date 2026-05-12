@@ -5,27 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>etourgood Wallet</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
 :root {
   --primary: #ff7a00;
-  --bg: #f6f7f9;
+  --bg: #f5f7fa;
   --card: #ffffff;
-  --text: #1f2937;
+  --text: #111827;
   --gray: #6b7280;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
+  color: var(--text);
 }
 
 .container {
-  padding: 16px;
   max-width: 420px;
   margin: auto;
+  padding: 16px;
 }
 
 /* HEADER /
@@ -33,65 +32,94 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .logo {
   font-weight: bold;
-  color: var(--primary);
   font-size: 20px;
+  color: var(--primary);
 }
 
-/ BALANCE /
+.profile {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+/ BALANCE CARD /
 .balance-card {
-  background: linear-gradient(135deg, #ff7a00, #ff9a3c);
+  background: linear-gradient(135deg, #ff7a00, #ff9f45);
+  border-radius: 20px;
+  padding: 22px;
   color: white;
-  padding: 20px;
-  border-radius: 18px;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 25px rgba(255,122,0,0.25);
 }
 
 .balance-title {
   font-size: 13px;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .balance-amount {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: bold;
   margin-top: 5px;
 }
 
-/ ACTIONS /
+.balance-sub {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/ ACTION BUTTONS /
 .actions {
   display: flex;
   gap: 10px;
-  margin-top: 15px;
+  margin-top: 18px;
 }
 
-.action-btn {
+.action {
   flex: 1;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.18);
+  border-radius: 12px;
   padding: 10px;
-  border-radius: 10px;
   text-align: center;
   font-size: 13px;
-  cursor: pointer;
 }
 
-/ ASSETS /
-.card {
-  background: var(--card);
-  padding: 15px;
-  border-radius: 14px;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+/ SECTION TITLE /
+.section-title {
+  font-size: 14px;
+  color: var(--gray);
+  margin: 10px 0;
 }
 
+/ ASSET LIST /
 .asset {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+}
+
+.asset-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f1f1f1;
 }
 
 .asset-name {
@@ -99,21 +127,32 @@ body {
 }
 
 .asset-balance {
-  font-size: 14px;
+  font-size: 13px;
+  color: var(--gray);
 }
 
-/ BUTTON */
-.btn {
-  width: 100%;
-  padding: 14px;
+.asset-right {
+  text-align: right;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/ POS BUTTON */
+.pay-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 420px;
   background: var(--primary);
   color: white;
-  border: none;
-  border-radius: 14px;
-  font-size: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  text-align: center;
   font-weight: bold;
-  margin-top: 10px;
-  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 10px 20px rgba(255,122,0,0.3);
 }
 
 </style>
@@ -126,67 +165,64 @@ body {
   <!-- HEADER -->
   <div class="header">
     <div class="logo">etourgood</div>
-    <div>Wallet</div>
+    <div class="profile"></div>
   </div>
 
   <!-- BALANCE -->
   <div class="balance-card">
     <div class="balance-title">Total Balance</div>
     <div class="balance-amount">$2,450.00</div>
+    <div class="balance-sub">≈ 2,450 USD</div>
 
     <div class="actions">
-      <div class="action-btn" onclick="deposit()">Deposit</div>
-      <div class="action-btn" onclick="send()">Send</div>
-      <div class="action-btn" onclick="openPOS()">Pay</div>
+      <div class="action">Deposit</div>
+      <div class="action">Send</div>
+      <div class="action">History</div>
     </div>
   </div>
 
   <!-- ASSETS -->
-  <div class="card">
-    <div class="asset">
+  <div class="section-title">Assets</div>
+
+  <div class="asset">
+    <div class="asset-left">
+      <div class="icon"></div>
       <div>
         <div class="asset-name">USDT</div>
         <div class="asset-balance">1,200.00</div>
       </div>
-      <div>$1,200</div>
     </div>
+    <div class="asset-right">$1,200</div>
   </div>
 
-  <div class="card">
-    <div class="asset">
+  <div class="asset">
+    <div class="asset-left">
+      <div class="icon"></div>
       <div>
         <div class="asset-name">TON</div>
         <div class="asset-balance">320.50</div>
       </div>
-      <div>$850</div>
     </div>
+    <div class="asset-right">$850</div>
   </div>
 
-  <!-- BUTTON -->
-  <button class="btn" onclick="openPOS()">Pay with Wallet</button>
+  <div class="asset">
+    <div class="asset-left">
+      <div class="icon"></div>
+      <div>
+        <div class="asset-name">Miles 3</div>
+        <div class="asset-balance">15,200</div>
+      </div>
+    </div>
+    <div class="asset-right">Rewards</div>
+  </div>
 
 </div>
 
-<script>
-
-const tg = window.Telegram.WebApp;
-tg.expand();
-
-function deposit() {
-  alert("Deposit flow (QR / address gelecek)");
-}
-
-function send() {
-  alert("Send flow (address + amount)");
-}
-
-function openPOS() {
-  // POS ekranına yönlendirme
-  window.location.href = "pos.html"; 
-  // veya Telegram bot deep link
-}
-
-</script>
+<!-- POS CTA -->
+<div class="pay-btn">
+  Pay with Wallet
+</div>
 
 </body>
 </html>
