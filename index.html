@@ -1,465 +1,199 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>eTourGood | Turizm Hissesi Tokenomics</title>
-    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+  <meta charset="UTF-8">
+  <title>etourgood POS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            background: linear-gradient(145deg, #2c1a0c 0%, #1f1308 100%);
-            font-family: 'Segoe UI', system-ui, -apple-system, 'Inter', sans-serif;
-            padding: 20px 16px 40px;
-            min-height: 100vh;
-            color: #fff2e0;
-        }
+  <!-- Telegram WebApp -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
+  <style>
+    :root {
+      --primary: #ff7a00;
+      --light: #ffffff;
+      --gray: #f4f4f4;
+      --dark-gray: #777;
+      --text: #222;
+    }
 
-        .card {
-            background: rgba(30, 20, 12, 0.75);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 20px 18px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 100, 30, 0.3);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-        }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray);
+      color: var(--text);
+    }
 
-        .logo {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffaa44, #ff6a00);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+    .container {
+      padding: 20px;
+    }
 
-        .badge-orange {
-            background: rgba(255, 120, 0, 0.2);
-            border: 1px solid rgba(255, 100, 0, 0.5);
-            border-radius: 60px;
-            padding: 4px 12px;
-            font-size: 11px;
-            font-weight: 500;
-        }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        .supply {
-            background: #2a1e12;
-            padding: 6px 12px;
-            border-radius: 40px;
-            font-size: 13px;
-        }
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--primary);
+    }
 
-        .price-value {
-            font-size: 34px;
-            font-weight: 800;
-            color: #ffa559;
-        }
+    .card {
+      background: var(--light);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 15px;
+    }
 
-        .stat {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 24px;
-            padding: 10px;
-            text-align: center;
-            flex: 1;
-        }
+    .label {
+      font-size: 13px;
+      color: var(--dark-gray);
+      margin-bottom: 5px;
+    }
 
-        .stat-number {
-            font-weight: 700;
-            font-size: 18px;
-            color: #ffbc6e;
-        }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
 
-        .holder-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-        .holder-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 2;
-            min-width: 140px;
-        }
+    .btn.secondary {
+      background: #eee;
+      color: #333;
+    }
 
-        .avatar {
-            width: 42px;
-            height: 42px;
-            background: #ff8c2e30;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            border: 1px solid #ff8c2e;
-        }
+    .qr {
+      text-align: center;
+      margin-top: 15px;
+    }
 
-        .holder-percent {
-            font-weight: 700;
-            font-size: 17px;
-            color: #ffb158;
-            min-width: 55px;
-            text-align: right;
-        }
+    .qr img {
+      width: 180px;
+      height: 180px;
+    }
 
-        .holder-amount {
-            font-size: 12px;
-            background: #322418;
-            padding: 4px 10px;
-            border-radius: 40px;
-            font-family: monospace;
-        }
+    .status {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
 
-        .progress-bar {
-            background: #2f241b;
-            border-radius: 20px;
-            height: 8px;
-            width: 100%;
-            margin: 6px 0 12px 0;
-            overflow: hidden;
-        }
+    .status.pending {
+      color: orange;
+    }
 
-        .progress-fill {
-            background: linear-gradient(90deg, #ff8c2e, #ffb347);
-            height: 100%;
-            border-radius: 20px;
-        }
+    .status.success {
+      color: green;
+    }
 
-        .invest-card {
-            background: #261b10;
-            border-radius: 24px;
-            padding: 14px;
-            margin-top: 12px;
-            border-left: 5px solid #ff8c2e;
-        }
-
-        .invest-title {
-            font-weight: 700;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-
-        .tg-btn {
-            background: #ff7a2f;
-            border: none;
-            padding: 12px 0;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 14px;
-            color: #1f140a;
-            flex: 1;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .tg-btn-outline {
-            background: transparent;
-            border: 1.5px solid #ff7a2f;
-            color: #ffa559;
-        }
-
-        .tg-btn-small {
-            padding: 8px 0;
-            font-size: 13px;
-        }
-
-        .footer-note {
-            text-align: center;
-            font-size: 10px;
-            opacity: 0.5;
-            margin-top: 24px;
-        }
-
-        hr {
-            border-color: #ff883330;
-            margin: 14px 0;
-        }
-
-        @media (max-width: 500px) {
-            .holder-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .holder-percent {
-                text-align: left;
-            }
-            .button-group {
-                flex-direction: column;
-            }
-        }
-    </style>
+    .wallet {
+      font-size: 12px;
+      word-break: break-all;
+      background: #fafafa;
+      padding: 8px;
+      border-radius: 8px;
+    }
+  </style>
 </head>
+
 <body>
+
 <div class="container">
-    <!-- BAŞLIK KARTI -->
-    <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-            <div class="logo">🏝️ eTourGood</div>
-            <div class="supply">📈 Borsa İstanbul Hissesi 🤝</div>
-        </div>
-        <div style="margin-top: 12px;">
-            <div style="font-size: 13px; opacity: 0.8;">Halka Arz Fiyatı / Hisse Başı</div>
-            <div class="price-value">₺0,078 <span style="font-size: 16px;">TRY</span> <span style="font-size: 12px;">≈ $0,0022</span></div>
-        </div>
-        <div style="display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
-            <div class="stat"><div class="stat-label">Piyasa Değeri</div><div class="stat-number">₺390.000</div></div>
-            <div class="stat"><div class="stat-label">Toplam Hisse</div><div class="stat-number">5.000.000 ETG</div></div>
-            <div class="stat"><div class="stat-label">Halka Açık Oran</div><div class="stat-number">%41</div></div>
-        </div>
+
+  <div class="header">
+    <div class="logo">etourgood POS</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Amount</div>
+    <input type="number" id="amount" placeholder="Enter amount">
+
+    <div class="label">Currency</div>
+    <select id="currency">
+      <option value="USDT">USDT</option>
+      <option value="TON">TON</option>
+    </select>
+
+    <button class="btn" onclick="createInvoice()">Create Payment</button>
+  </div>
+
+  <div class="card" id="invoiceBox" style="display:none;">
+    <div class="label">Wallet Address</div>
+    <div class="wallet" id="walletAddress"></div>
+
+    <div class="qr">
+      <img id="qrImage" src="">
     </div>
 
-    <!-- YENİ TOKENOMICS: DAHA ADİL DETAYLI YATIRIMLAR -->
-    <div class="card">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
-            <span class="badge-orange">📊 Tokenomics · Yatırım Planı</span>
-            <span class="badge-orange">Toplam Arz 5.000.000</span>
-        </div>
+    <div class="status pending" id="status">Waiting for payment...</div>
 
-        <!-- 1. Topluluk & Halka Arz (Artık en büyük pay) -->
-        <div class="holder-item">
-            <div class="holder-info"><div class="avatar">👥</div><div class="holder-name">Topluluk & Halka Arz</div></div>
-            <div class="holder-percent">%35</div>
-            <div class="holder-amount">1.750.000 ETG</div>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" style="width: 35%; background:#ffaa55;"></div></div>
-        <div class="invest-card">
-            <div class="invest-title">🌍 Topluluk Yatırımı</div>
-            <div style="font-size: 13px;">• Erken yatırımcılara özel airdrop<br>• Stake ile yıllık %8 getiri<br>• Yönetişim hakkı (DAO oyları)</div>
-        </div>
+    <button class="btn secondary" onclick="checkPayment()">Check Status</button>
+  </div>
 
-        <!-- 2. Turizm Altyapı & Otel Yatırımı (YENİ) -->
-        <div class="holder-item" style="margin-top: 8px;">
-            <div class="holder-info"><div class="avatar">🏨</div><div class="holder-name">Turizm Altyapı & Otel Zinciri</div></div>
-            <div class="holder-percent">%20</div>
-            <div class="holder-amount">1.000.000 ETG</div>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" style="width: 20%; background:#ff914d;"></div></div>
-        <div class="invest-card">
-            <div class="invest-title">🏖️ Proje Ağı – Fiziksel Yatırım</div>
-            <div style="font-size: 13px;">• Antalya & Bodrum’da butik otel hisseleri alımı<br>• Dijital turizm platformu geliştirme<br>• Rezervasyon sistemi blockchain entegrasyonu</div>
-        </div>
-
-        <!-- 3. Likidite & Dijital Borsa Piyasası -->
-        <div class="holder-item">
-            <div class="holder-info"><div class="avatar">💧</div><div class="holder-name">Likidite & Piyasa Yapıcı</div></div>
-            <div class="holder-percent">%15</div>
-            <div class="holder-amount">750.000 ETG</div>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" style="width: 15%; background:#ffb347;"></div></div>
-        <div class="invest-card">
-            <div class="invest-title">📊 Dijital Borsa Likiditesi</div>
-            <div style="font-size: 13px;">• PancakeSwap & Uniswap havuzları<br>• Telegram bot ile anlık alım/satım<br>• Spread desteği</div>
-        </div>
-
-        <!-- 4. Kurucu Ekibi (Ben - bireysel olarak en çok hisse bende değil artık toplulukta) -->
-        <div class="holder-item">
-            <div class="holder-info"><div class="avatar">👨‍💼</div><div class="holder-name">Kurucu Ekibi (Bireysel)</div></div>
-            <div class="holder-percent">%18</div>
-            <div class="holder-amount">900.000 ETG</div>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" style="width: 18%; background:#ff7a2f;"></div></div>
-        <div class="invest-card">
-            <div class="invest-title">🔒 Kilitli Kurucu Hissesi (24 ay)</div>
-            <div style="font-size: 13px;">• Şirket geliştirme & yönetim payı<br>• 6 ay cliff, sonrası linear vesting</div>
-        </div>
-
-        <!-- 5. Hazine & Ekosistem Fonu (Sürdürülebilirlik) -->
-        <div class="holder-item">
-            <div class="holder-info"><div class="avatar">🏦</div><div class="holder-name">Hazine & Ekosistem</div></div>
-            <div class="holder-percent">%7</div>
-            <div class="holder-amount">350.000 ETG</div>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" style="width: 7%; background:#ffaa66;"></div></div>
-        
-        <!-- 6. Pazarlama & İş Geliştirme (Yeni) -->
-        <div class="holder-item">
-            <div class="holder-info"><div class="avatar">📢</div><div class="holder-name">Pazarlama & İş Geliştirme</div></div>
-            <div class="holder-percent">%5</div>
-            <div class="holder-amount">250.000 ETG</div>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" style="width: 5%; background:#ff9966;"></div></div>
-        <div class="invest-card">
-            <div class="invest-title">🚀 Büyüme & Reklam & Influencer</div>
-            <div style="font-size: 13px;">• Telegram reklamları, turizm fuarları, YouTube tanıtımı<br>• Topluluk yarışmaları ve ödüller</div>
-        </div>
-        <hr>
-        <div style="font-size:13px; text-align:center;">✅ Toplam = 5.000.000 ETG | Halka arz edilmiştir, borsa mantığı ile işlem görür.</div>
-    </div>
-
-    <!-- YATIRIM VAATLERİ VE DESTEK BUTONLARI (PROJE AĞI) -->
-    <div class="card">
-        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 14px;">
-            <span class="badge-orange">💎 Proje Ağı & Yatırım Vaatleri</span>
-            <span class="badge-orange">Vizyon 2026</span>
-        </div>
-        <div class="invest-card" style="background: #2a1e12;">
-            <div class="invest-title">🏗️ Yatırım Planı (Hazine %7 + Turizm %20 = %27 reel yatırım)</div>
-            <div style="font-size: 13px; margin-top: 4px;">
-                ➤ <strong>2 Milyon TL</strong> değerinde otel projesi pay alımı (Antalya/Kuşadası)<br>
-                ➤ <strong>Blokzincir rezervasyon</strong> ve sadakat puan sistemi yazılımı<br>
-                ➤ <strong>Telegram Bot ile tur paketi</strong> alım-satım entegrasyonu<br>
-                ➤ Her çeyrek düzenli <strong>geri alım ve yakma</strong> mekanizması (toplam arzın %2’si)
-            </div>
-        </div>
-        <div class="button-group">
-            <div class="tg-btn" id="supportProjectBtn">🌟 Projeyi Destekle (Bağış)</div>
-            <div class="tg-btn tg-btn-outline" id="voteBtn">🗳️ Yönetişim Oylaması</div>
-            <div class="tg-btn tg-btn-outline tg-btn-small" id="whitepaperBtn">📄 Beyaz Kağıt</div>
-        </div>
-    </div>
-
-    <!-- DİJİTAL BORSA MANTIĞI : AL/SAT DEMO -->
-    <div class="card">
-        <div class="invest-title" style="margin-bottom: 12px;">📈 Dijital Borsa İşlemleri (Demo Hisse Al/Sat)</div>
-        <div class="button-group">
-            <div class="tg-btn" id="buyBtn">🟢 AL (TL ile hisse al)</div>
-            <div class="tg-btn tg-btn-outline" id="sellBtn">🔴 SAT (Hisse sat)</div>
-        </div>
-        <div style="margin-top: 16px; background:#1f150e; border-radius: 28px; padding: 14px;">
-            <div style="display: flex; justify-content: space-between;"><span>🧾 Demo Cüzdanınız</span><strong id="userBalance">8.420 ETG</strong></div>
-            <div style="display: flex; justify-content: space-between; margin-top: 6px;"><span>₺ TRY Bakiyeniz</span><strong id="tryBalance">₺2.340,00</strong></div>
-            <div class="progress-bar" style="margin-top: 12px;"><div class="progress-fill" style="width: 28%;"></div></div>
-            <div class="footer-note" style="margin-top: 10px;">⚡ Hisse fiyatı alım/satıma göre değişir – gerçek borsa mantığı</div>
-        </div>
-    </div>
-
-    <div class="footer-note">
-        🔸 eTourGood Turizm A.Ş. Dijital Hissesidir. Halka arz edilmiştir. Topluluk en büyük hissedardır (%35). Yatırım vaatleri tokenomics haritasında işlenmiştir.
-    </div>
 </div>
 
 <script>
-    let tg = window.Telegram?.WebApp;
-    if(tg) {
-        tg.expand();
-        tg.enableClosingConfirmation();
-        tg.setHeaderColor('#1f1308');
-    }
 
-    let currentPrice = 0.078;      // TL/ETG
-    let userTokenBalance = 8420;
-    let userTryBalance = 2340.00;
+  const tg = window.Telegram.WebApp;
+  tg.expand();
 
-    const balanceSpan = document.getElementById('userBalance');
-    const tryBalanceSpan = document.getElementById('tryBalance');
-    const priceDisplayElem = document.querySelector('.price-value');
+  let currentInvoiceId = null;
 
-    function updateUI() {
-        balanceSpan.innerText = userTokenBalance.toFixed(2) + ' ETG';
-        tryBalanceSpan.innerText = '₺' + userTryBalance.toFixed(2);
-        if(priceDisplayElem) priceDisplayElem.innerHTML = `₺${currentPrice.toFixed(4)} <span style="font-size: 16px;">TRY</span> <span style="font-size: 12px;">≈ $${(currentPrice/35).toFixed(4)}</span>`;
-        let marketCapElement = document.querySelector('.stat:first-child .stat-number');
-        if(marketCapElement) marketCapElement.innerHTML = `₺${(currentPrice * 4500000).toFixed(0)}`;
-    }
+  function createInvoice() {
+    const amount = document.getElementById("amount").value;
+    const currency = document.getElementById("currency").value;
 
-    function buyTokens(amountTRY) {
-        if(amountTRY <= 0 || userTryBalance < amountTRY) {
-            (tg?tg.showAlert:'alert')('Yetersiz TRY veya geçersiz miktar');
-            return false;
-        }
-        let tokensBought = amountTRY / currentPrice;
-        userTryBalance -= amountTRY;
-        userTokenBalance += tokensBought;
-        currentPrice = currentPrice * (1 + (amountTRY / 15000));
-        currentPrice = parseFloat(currentPrice.toFixed(6));
-        updateUI();
-        (tg?tg.showAlert:`alert`)(`✅ ${tokensBought.toFixed(2)} ETG aldınız! Yeni fiyat: ₺${currentPrice.toFixed(4)}`);
-        return true;
-    }
+    fetch("https://yourdomain.com/api/create-invoice/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ amount, currency })
+    })
+    .then(res => res.json())
+    .then(data => {
 
-    function sellTokens(amountETG) {
-        if(amountETG <= 0 || userTokenBalance < amountETG) {
-            (tg?tg.showAlert:'alert')('Yetersiz ETG bakiyesi');
-            return false;
-        }
-        let tryReceived = amountETG * currentPrice;
-        userTokenBalance -= amountETG;
-        userTryBalance += tryReceived;
-        currentPrice = currentPrice * (1 - (amountETG / 40000));
-        currentPrice = Math.max(0.001, currentPrice);
-        updateUI();
-        (tg?tg.showAlert:`alert`)(`📉 ${amountETG.toFixed(2)} ETG satıldı, ₺${tryReceived.toFixed(2)} kazanıldı. Fiyat: ₺${currentPrice.toFixed(4)}`);
-        return true;
-    }
+      currentInvoiceId = data.invoice_id;
 
-    // Alış butonu
-    document.getElementById('buyBtn').addEventListener('click', () => {
-        if(tg) {
-            tg.showPopup({
-                title: 'ETG Hisse Alımı',
-                message: `Güncel fiyat: ₺${currentPrice.toFixed(4)}\nNe kadar TL yatırmak istersiniz?`,
-                buttons: [{id:'50',text:'₺50'},{id:'100',text:'₺100'},{id:'250',text:'₺250'},{id:'custom',text:'Özel'},{id:'cancel',text:'İptal',type:'cancel'}]
-            }, (btnId) => {
-                if(btnId==='cancel') return;
-                if(btnId==='custom') tg.showPrompt({title:'Özel Miktar',message:'TL girin',placeholder:'Örn: 320'}, (val) => { if(val && !isNaN(parseFloat(val))) buyTokens(parseFloat(val)); else tg.showAlert('Geçersiz'); });
-                else buyTokens(parseInt(btnId));
-            });
-        } else {
-            let miktar = prompt('Kaç TL yatırmak istersiniz?','100');
-            if(miktar && !isNaN(parseFloat(miktar))) buyTokens(parseFloat(miktar));
-        }
+      document.getElementById("invoiceBox").style.display = "block";
+      document.getElementById("walletAddress").innerText = data.address;
+      document.getElementById("qrImage").src = data.qr;
+
     });
+  }
 
-    document.getElementById('sellBtn').addEventListener('click', () => {
-        if(tg) {
-            tg.showPopup({
-                title: 'Hisse Satışı',
-                message: `Bakiyeniz: ${userTokenBalance.toFixed(2)} ETG | Fiyat: ₺${currentPrice.toFixed(4)}\nKaç adet satmak istersiniz?`,
-                buttons: [{id:'500',text:'500 ETG'},{id:'1000',text:'1000 ETG'},{id:'half',text:'Yarısı'},{id:'custom',text:'Özel'},{id:'cancel',text:'İptal',type:'cancel'}]
-            }, (btnId) => {
-                if(btnId==='cancel') return;
-                if(btnId==='half') sellTokens(userTokenBalance/2);
-                else if(btnId==='custom') tg.showPrompt({title:'Özel Satış',message:`Maks: ${userTokenBalance.toFixed(0)} ETG`}, (val) => { if(val && !isNaN(parseFloat(val))) sellTokens(parseFloat(val)); });
-                else sellTokens(parseInt(btnId));
-            });
-        } else {
-            let adet = prompt(`Mevcut: ${userTokenBalance.toFixed(2)} ETG, kaç adet sat?`,'500');
-            if(adet && !isNaN(parseFloat(adet))) sellTokens(parseFloat(adet));
-        }
-    });
+  function checkPayment() {
 
-    // Destek butonları eylemleri (proje vaadi simülasyonu)
-    document.getElementById('supportProjectBtn').addEventListener('click', () => {
-        if(tg) tg.showAlert('🌟 Teşekkürler! Proje desteği için cüzdan: 0xeTour... (demo) | Turizm fonu bu bağışları otel yatırımına aktaracak.');
-        else alert('🌟 Proje destek butonu: Topluluk fonu ile Antalya butik otel yatırımı yapılacak.');
-    });
-    document.getElementById('voteBtn').addEventListener('click', () => {
-        if(tg) tg.showAlert('🗳️ Yönetişim oylaması açıldı: Otel zinciri mi yoksa yazılım mı öncelikli? Telegram kanalında oy kullanabilirsiniz.');
-        else alert('🗳️ Yönetişim Oylaması: eTourGood topluluğu en fazla hisseye sahip (%35). Yakında snapshot.');
-    });
-    document.getElementById('whitepaperBtn').addEventListener('click', () => {
-        if(tg) tg.showAlert('📄 Beyaz kağıt (taslak): Tokenomics, turizm gelir modeli, geri alım mekanizması ve yol haritası için web sitemizi ziyaret edin: etourgood.com');
-        else alert('📄 Beyaz Kağıt: Detaylı tokenomics, yatırım planı %20 otel altyapısı, %35 topluluk, %15 likidite vs.');
-    });
+    fetch(https://yourdomain.com/api/check-invoice/${currentInvoiceId}/)
+    .then(res => res.json())
+    .then(data => {
 
-    updateUI();
+      if (data.status === "paid") {
+        document.getElementById("status").innerText = "Payment Received ✅";
+        document.getElementById("status").className = "status success";
+      }
+
+    });
+  }
+
 </script>
+
 </body>
 </html>
